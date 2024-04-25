@@ -208,7 +208,7 @@ class BTTrade {
 }
 
 // TODO: resolve Tuple for Json Deserialisation
-@JsonSerializable()
+// @JsonSerializable()
 class SimulationRule {
   String indicatorOneName = "";
   BTIndicator indicatorOneType = BTIndicator.close;
@@ -219,21 +219,21 @@ class SimulationRule {
   CompareOption compareOption = CompareOption.equalTo;
 }
 
-@JsonSerializable()
+// @JsonSerializable()
 class OptimizeConfigOutput {
   BTAnalysisResult analysis = BTAnalysisResult();
   List<BTTrade> trades = [];
   SimulationPolicyConfig config = SimulationPolicyConfig();
 }
 
-@JsonSerializable()
+// @JsonSerializable()
 class SimulateConfigOutput {
   BTAnalysisResult analysis = BTAnalysisResult();
   List<BTTrade> trades = [];
   SimulationPolicyConfig config = SimulationPolicyConfig();
 }
 
-@JsonSerializable()
+// @JsonSerializable()
 class SimulationPolicyConfig {
   SimulationPolicy policy = SimulationPolicy.sma;
   bool trailingStopLoss = true;
@@ -245,7 +245,7 @@ class SimulationPolicyConfig {
   double t2 = 0.0;
 }
 
-@JsonSerializable()
+// @JsonSerializable()
 class OptimizePolicyConfig {
   int stepSize = 1;
   bool simplePolicy = true;
@@ -259,7 +259,7 @@ class OptimizePolicyConfig {
 }
 
 // TODO: resolve Tuple for Json Deserialisation
-@JsonSerializable()
+// @JsonSerializable()
 class OptimizeRule {
   String indicatorOneName = "";
   BTIndicator indicatorOneType = BTIndicator.close;
@@ -279,7 +279,7 @@ class OptimizeRule {
 @JsonSerializable()
 class OptimizeRulesContainer {}
 
-@JsonSerializable()
+// @JsonSerializable()
 class BTBacktestOptions {
   CheckingFn entryRule;
   CheckingFn exitRule;

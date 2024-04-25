@@ -10,7 +10,7 @@ void main() {
     });
 
     test('First Test', () {
-      expect(awesome.price, isNotNull);
+      expect(awesome.entryPrice, isNotNull);
     });
   });
 }

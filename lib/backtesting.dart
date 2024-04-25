@@ -7,5 +7,6 @@ library backtesting;
 
 export 'src/analysis_manager.dart';
 export 'src/data_manager.dart';
+export 'src/model.dart';
 export 'src/trading_manager.dart';
 export 'src/util.dart';
