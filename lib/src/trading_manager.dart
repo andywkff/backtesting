@@ -1,18 +1,16 @@
 import 'package:backtesting/backtesting.dart';
 import 'package:tuple/tuple.dart';
 
-import './model.dart';
-
 class BTTradingManager {
   List<BTTrade> backtest(BTSimulationInput input, BTBacktestOptions options) {
     List<BTTrade> completedTrades = [];
     BTTrade? currentPosition;
     PositionStatus positionStatus = PositionStatus.none;
     input.candleSticks.forEach((timestamp, currentBar) {
-      // 1. enterRule
-      // 2. exitRule
-      // 3. stopLoss / trailingStopLoss
-      // 4. profit target
+      // 1. stopLoss / trailingStopLoss
+      // 2. profit target
+      // 3. enterRule
+      // 4. exitRule
       // 5. keep holding position
       // 6. finalize last candlestick
 
@@ -25,10 +23,10 @@ class BTTradingManager {
           }
           if (options.entryRule(currentBar)) {
             positionStatus = PositionStatus.enter;
-            if (options.sameDayExecution) {
-              continue SameDayExecution;
-            }
-            break;
+            // if (options.sameDayExecution) {
+            //   continue SameDayExecution;
+            // }
+            // break;
           }
         SameDayExecution:
         case PositionStatus.enter:
@@ -46,12 +44,7 @@ class BTTradingManager {
             continue CurrentPositionEmpty;
           }
           // currentTrade!.holdingPeriod++;
-          if (options.exitRule(currentBar)) {
-            positionStatus = PositionStatus.exit;
-            currentPosition!.exitReason = BTTradeExitReason.exitRule;
-            currentPosition = _updatePosition(
-                timestamp, currentBar, currentPosition!, false, options);
-          } else if (currentBar["close"]! < currentPosition!.stopPrice) {
+          if (currentBar["close"]! < currentPosition!.stopPrice) {
             positionStatus = PositionStatus.exit;
             currentPosition!.exitReason = BTTradeExitReason.stopLoss;
             currentPosition = _updatePosition(
@@ -59,6 +52,11 @@ class BTTradingManager {
           } else if (currentBar["close"]! > currentPosition!.profitTarget) {
             positionStatus = PositionStatus.exit;
             currentPosition!.exitReason = BTTradeExitReason.profitTarget;
+            currentPosition = _updatePosition(
+                timestamp, currentBar, currentPosition!, false, options);
+          } else if (options.exitRule(currentBar)) {
+            positionStatus = PositionStatus.exit;
+            currentPosition!.exitReason = BTTradeExitReason.exitRule;
             currentPosition = _updatePosition(
                 timestamp, currentBar, currentPosition!, false, options);
           } else {
@@ -79,6 +77,7 @@ class BTTradingManager {
           break;
       }
     });
+    // MARK: finialize position
     if (positionStatus == PositionStatus.position) {
       if (isNull(currentPosition)) {
         positionStatus = PositionStatus.none;

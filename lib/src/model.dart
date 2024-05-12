@@ -290,6 +290,6 @@ class BTBacktestOptions {
   bool intraDayStopLossProfitTarget = false;
   bool sameDayExecution = false;
   bool intraDayHighForTrailingStopLoss = false;
-  bool immediateInvoke = false;
+  bool immediateInvoke = true;
   BTBacktestOptions(this.entryRule, this.exitRule);
 }
